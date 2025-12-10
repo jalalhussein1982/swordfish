@@ -77,7 +77,9 @@ Options:
 
 Use your preferred LLM to analyze the scraped content in `content.json`.
 
-See `prompts/query_refinement_prompt.md` for a prompt template to refine your search queries.
+## Query Refinement (Optional)
+
+The `prompts/` folder contains `query_refinement_prompt.md` - a prompt template you can use with your preferred LLM (ChatGPT, Claude, Gemini, etc.) to refine your search queries before searching. This can help optimize your queries for better dark web search engine results.
 
 ## Output Formats
 
