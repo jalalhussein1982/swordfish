@@ -83,13 +83,13 @@ def scrape_single(url_data, rotate=False, rotate_interval=5, control_port=9051, 
     
     return url, scraped_text
 
-def scrape_multiple(urls_data, max_workers=5):
+def scrape_multiple(urls_data, max_workers=5, max_chars=0):
     """
     Scrapes multiple URLs concurrently using a thread pool.
+    max_chars: Maximum characters to keep per page. 0 = no limit.
     """
     results = {}
-    max_chars = 2000  # Increased limit slightly for better context
-    
+
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_url = {
             executor.submit(scrape_single, url_data): url_data
@@ -98,7 +98,7 @@ def scrape_multiple(urls_data, max_workers=5):
         for future in as_completed(future_to_url):
             try:
                 url, content = future.result()
-                if len(content) > max_chars:
+                if max_chars > 0 and len(content) > max_chars:
                     content = content[:max_chars] + "...(truncated)"
                 results[url] = content
             except Exception:

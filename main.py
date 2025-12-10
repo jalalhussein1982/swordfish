@@ -93,11 +93,20 @@ def search(query, threads, output):
     type=str,
     help="Output JSON filename. Default: scraped_<timestamp>.json",
 )
-def scrape(input_file, threads, output):
+@click.option(
+    "--chars",
+    "-c",
+    default=0,
+    show_default=True,
+    type=int,
+    help="Max characters per page. 0 = no limit (full content)",
+)
+def scrape(input_file, threads, output, chars):
     """Scrape content from selected links.
 
     Example:
         swordfish scrape -i selected_links.txt -t 10 -o content.json
+        swordfish scrape -i links.txt -c 5000 -o content.json
 
     Reads links from the input file (one per line) and scrapes
     content from each via Tor, exporting to a JSON file.
@@ -115,7 +124,7 @@ def scrape(input_file, threads, output):
     urls_data = [{"link": link, "title": ""} for link in links]
 
     with yaspin(text="Scraping content via Tor...", color="cyan") as sp:
-        scraped_results = scrape_multiple(urls_data, max_workers=threads)
+        scraped_results = scrape_multiple(urls_data, max_workers=threads, max_chars=chars)
         sp.ok("✔")
 
     # Count successful scrapes

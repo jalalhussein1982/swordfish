@@ -72,6 +72,12 @@ Options:
 - `-i, --input` (required): File with links to scrape
 - `-t, --threads` (default: 5): Number of parallel threads
 - `-o, --output`: Output JSON file (default: `scraped_<timestamp>.json`)
+- `-c, --chars` (default: 0): Max characters per page. 0 = no limit (full content)
+
+Example with character limit:
+```bash
+python main.py scrape -i selected_links.txt -c 5000 -o content.json
+```
 
 ### Step 4: Analyze
 
